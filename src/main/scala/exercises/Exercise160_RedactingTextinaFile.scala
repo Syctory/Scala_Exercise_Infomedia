@@ -1,46 +1,50 @@
 package exercises
-import scala.io.Source
-import java.io.PrintWriter
+import scala.io.Source //Una representación iterable de los datos de origen.
+                       // Se puede restablecer con el método de reinicio opcional .
+import java.io.PrintWriter//es una clase en Java utilizada para escribir datos basados en texto en un archivo.
+import scala.io.StdIn.readLine
 object Exercise160_RedactingTextinaFile extends App {
-  // Function to redact sensitive words from the text
-  def redactWords(text: String, sensitiveWords: Set[String]): String = {
-    // Split the text into words
-    val words = text.split("\\s+")
 
-    // Redact sensitive words
-    val redactedWords = words.map { word =>
-      if (sensitiveWords.contains(word.toLowerCase)) "*" * word.length
-      else word
-    }
 
-    // Join redacted words back into a string
-    redactedWords.mkString(" ")
-  }
-
-  // Read file paths from the user
+  // Leer rutas de archivos del usuario
   println("Ingrese la ruta del archivo de texto original:")
-  val originalFilePath = scala.io.StdIn.readLine()
+  val rutaArchivoOriginal = readLine()
 
   println("Ingrese la ruta del archivo de palabras sensibles:")
-  val sensitiveWordsFilePath = scala.io.StdIn.readLine()
+  val rutaArchivoPalabrasSensibles = readLine()
 
   println("Ingrese la ruta del archivo redactado:")
-  val redactedFilePath = scala.io.StdIn.readLine()
+  val rutaArchivoRedactado = readLine()
 
-  // Read sensitive words from the file
-  val sensitiveWords = Source.fromFile(sensitiveWordsFilePath).getLines().toSet
+  // Leer palabras sensibles del archivo
+  val palabrasSensibles = Source.fromFile(rutaArchivoPalabrasSensibles).getLines().toSet
 
-  // Read text from the original file
-  val originalText = Source.fromFile(originalFilePath).mkString
+  // Leer texto del archivo original
+  val textoOriginal = Source.fromFile(rutaArchivoOriginal).mkString
 
-  // Redact sensitive words
-  val redactedText = redactWords(originalText, sensitiveWords)
+  // Redactar palabras sensibles
+  val textoRedactado = redactarPalabras(textoOriginal, palabrasSensibles)
 
-  // Write redacted text to a new file
-  val writer = new PrintWriter(redactedFilePath)
-  writer.write(redactedText)
-  writer.close()
+  // Escribir texto redactado en un nuevo archivo
+  val escritor = new PrintWriter(rutaArchivoRedactado)
+  escritor.write(textoRedactado)
+  escritor.close()
 
   println("El archivo ha sido redactado con éxito.")
+
+  // Función para eliminar palabras sensibles del texto
+  def redactarPalabras(texto: String, palabrasSensibles: Set[String]): String = {
+    // Dividir el texto en palabras
+    val palabras = texto.split("\\s+")
+
+    // Redactar palabras sensibles
+    val palabrasRedactadas = palabras.map { palabra =>
+      if (palabrasSensibles.contains(palabra.toLowerCase)) "*" * palabra.length
+      else palabra
+    }
+
+    //Volver a unir las palabras redactadas en una cadena
+    palabrasRedactadas.mkString(" ") //mkString concatenamos cadenas
+  }
 
 }
