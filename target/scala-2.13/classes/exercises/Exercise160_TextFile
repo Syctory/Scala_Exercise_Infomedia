@@ -1,0 +1,4 @@
+Scala es orientado a objetos
+Scala es un lenguaje puramente orientado a objetos en el sentido de que todo es un objeto.
+Los tipos y comportamientos de objetos son descritos por clases y traits (que podría ser traducido como un “rasgo”).
+Las clases pueden ser extendidas a través de subclases y un mecanismo flexible de composición mezclada que provee un claro remplazo a la herencia múltiple.
